@@ -109,36 +109,101 @@
     }
     .login-left-glow {
       position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 80% 60% at 80% 20%, rgba(61,79,138,0.6) 0%, transparent 60%);
+      background:
+        radial-gradient(ellipse 80% 60% at 80% 20%, rgba(61,79,138,0.6) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(184,151,46,0.07) 0%, transparent 55%);
     }
-    .login-left-content { position: relative; z-index: 1; }
+    .login-left-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(248,247,244,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(248,247,244,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .login-left-content { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; justify-content: center; }
+
+    /* Eyebrow */
     .login-left-eyebrow {
-      display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 36px;
+      opacity: 0; animation: llFadeUp 600ms cubic-bezier(0.25,0.46,0.45,0.94) 200ms forwards;
     }
     .login-left-eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
     .login-left-eyebrow-text { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
-    .login-left h2 {
-      font-size: 36px; font-weight: 600; color: var(--warm-white);
-      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 20px;
+
+    /* Animated heading */
+    .login-hero-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(34px, 3.5vw, 44px);
+      font-weight: 600;
+      color: var(--warm-white);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: llFadeUp 700ms cubic-bezier(0.25,0.46,0.45,0.94) 350ms forwards;
     }
-    .login-left h2 em { font-style: italic; color: var(--gold-light); }
-    .login-left p {
-      font-size: 15px; color: rgba(248,247,244,0.6);
-      line-height: 1.7; margin-bottom: 40px;
+    .login-hero-heading .static-line { display: block; }
+    .login-hero-heading .animated-word-wrap {
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      vertical-align: bottom;
+      height: 1.15em;
+      min-width: 160px;
     }
-    .portal-features { display: flex; flex-direction: column; gap: 18px; }
+    .animated-word {
+      display: block;
+      position: absolute;
+      left: 0; bottom: 0;
+      font-style: italic;
+      color: var(--gold-light);
+      white-space: nowrap;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 350ms ease;
+    }
+    .animated-word.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .animated-word.exit-up {
+      transform: translateY(-110%);
+      opacity: 0;
+    }
+
+    .login-hero-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(248,247,244,0.6);
+      line-height: 1.75;
+      max-width: 340px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: llFadeUp 700ms cubic-bezier(0.25,0.46,0.45,0.94) 500ms forwards;
+    }
+
+    /* Feature pills */
+    .portal-features {
+      display: flex; flex-direction: column; gap: 14px;
+      opacity: 0;
+      animation: llFadeUp 700ms cubic-bezier(0.25,0.46,0.45,0.94) 650ms forwards;
+    }
     .portal-feature { display: flex; align-items: flex-start; gap: 14px; }
     .portal-feature-icon {
       flex-shrink: 0; width: 34px; height: 34px; border-radius: 6px;
-      background: rgba(248,247,244,0.07);
-      border: 1px solid rgba(248,247,244,0.1);
+      background: rgba(184,151,46,0.1);
+      border: 1px solid rgba(184,151,46,0.25);
       display: flex; align-items: center; justify-content: center;
       color: var(--gold);
     }
     .portal-feature-text h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--warm-white); margin-bottom: 3px; }
     .portal-feature-text p { font-size: 12px; color: rgba(248,247,244,0.45); line-height: 1.5; }
 
-    .login-left-footer { position: relative; z-index: 1; }
+    .login-left-footer {
+      position: relative; z-index: 1;
+      opacity: 0;
+      animation: llFadeUp 700ms cubic-bezier(0.25,0.46,0.45,0.94) 800ms forwards;
+    }
     .security-badge {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 16px;
@@ -148,6 +213,11 @@
     }
     .security-badge span { font-size: 12px; color: rgba(248,247,244,0.5); }
     .security-badge svg { color: var(--gold); flex-shrink: 0; }
+
+    @keyframes llFadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* ─── RIGHT PANEL (FORM) ─── */
     .login-right {
@@ -293,17 +363,36 @@
   <div class="login-wrapper">
     <div class="login-container">
 
-      <!-- LEFT: Info -->
+      <!-- LEFT: Animated Hero -->
       <div class="login-left">
         <div class="login-left-glow"></div>
+        <div class="login-left-grid"></div>
+
         <div class="login-left-content">
+          <!-- Eyebrow -->
           <div class="login-left-eyebrow">
             <div class="login-left-eyebrow-line"></div>
             <span class="login-left-eyebrow-text">Client Portal</span>
           </div>
-          <h2>Your documents, <em>always secure.</em></h2>
-          <p>Access your financial documents, upload new files, and communicate with your CPA — all in one encrypted, always-available portal.</p>
 
+          <!-- Animated heading -->
+          <h2 class="login-hero-heading">
+            <span class="static-line">Your finances,</span>
+            <span class="static-line">finally
+              <span class="animated-word-wrap" id="word-wrap">
+                <span class="animated-word visible">secure.</span>
+                <span class="animated-word">transparent.</span>
+                <span class="animated-word">simple.</span>
+                <span class="animated-word">trusted.</span>
+                <span class="animated-word">clear.</span>
+              </span>
+            </span>
+          </h2>
+
+          <!-- Sub -->
+          <p class="login-hero-sub">Access your financial documents, communicate with your CPA, and stay on top of your finances — all in one encrypted, always-available portal.</p>
+
+          <!-- Features -->
           <div class="portal-features">
             <div class="portal-feature">
               <div class="portal-feature-icon">
@@ -418,6 +507,32 @@
       const input = document.getElementById('password');
       input.type = input.type === 'password' ? 'text' : 'password';
     }
+
+    // Animated word cycling (port of framer-motion animated-hero)
+    (function() {
+      const words = document.querySelectorAll('#word-wrap .animated-word');
+      if (!words.length) return;
+      let current = 0;
+
+      function next() {
+        const prev = current;
+        current = (current + 1) % words.length;
+
+        // Exit current word upward
+        words[prev].classList.remove('visible');
+        words[prev].classList.add('exit-up');
+
+        // After transition, reset exit-up so it's ready to enter from below again
+        setTimeout(function() {
+          words[prev].classList.remove('exit-up');
+        }, 500);
+
+        // Enter next word from below
+        words[current].classList.add('visible');
+      }
+
+      setInterval(next, 2200);
+    })();
   </script>
 
 </body>
