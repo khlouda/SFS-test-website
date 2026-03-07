@@ -401,6 +401,59 @@
     .footer-legal { display: flex; gap: 24px; }
     .footer-legal a { font-size: 13px; color: rgba(248,247,244,0.3); text-decoration: none; transition: color 300ms; }
     .footer-legal a:hover { color: rgba(248,247,244,0.6); }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 101; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 1px; transition: transform 300ms cubic-bezier(0.25,0.46,0.45,0.94), opacity 300ms; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-inner { padding: 0 20px; height: 72px; gap: 0; }
+      .nav-shield { height: 48px; }
+      .nav-logo-sub { display: none; }
+      .nav-logo-text { font-size: 16px; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 72px; left: 0; right: 0;
+        background: var(--warm-white);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 16px 0;
+        z-index: 99;
+        box-shadow: 0 8px 24px rgba(43,54,104,0.1);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid rgba(216,212,204,0.5); }
+      .nav-links li:last-child { border-bottom: none; padding: 12px 24px; }
+      .nav-links a { display: block; padding: 14px 24px; font-size: 14px; }
+      .nav-links a::after { display: none; }
+      .btn-nav { border-radius: 4px; text-align: center; justify-content: center; }
+      .page-hero { padding: 120px 20px 64px; }
+      .contact-section { padding: 64px 20px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      .contact-left { position: static; }
+      .form-card { padding: 28px 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+      .form-submit { grid-column: 1; }
+      .form-footer-note { grid-column: 1; }
+      .services-checkboxes { grid-template-columns: 1fr 1fr; }
+      .stats-band { padding: 48px 20px; }
+      .stats-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .section-cta { padding: 64px 20px; }
+      .cta-inner { flex-direction: column; text-align: center; }
+      .cta-actions { justify-content: center; flex-wrap: wrap; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { flex-wrap: wrap; justify-content: center; gap: 12px; }
+      footer { padding-left: 20px; padding-right: 20px; }
+    }
   </style>
 </head>
 <body>
@@ -415,7 +468,10 @@
           <div class="nav-logo-sub">Certified Public Accountants</div>
         </div>
       </a>
-      <ul class="nav-links">
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
         <li><a href="services.html">Services</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="index.html#process">Process</a></li>
@@ -680,6 +736,19 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 20);
     }, { passive: true });
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
   </script>
 
 </body>

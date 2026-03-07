@@ -254,6 +254,20 @@
       transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
     }
     .login-footer-links a:hover { color: rgba(248,247,244,0.6); }
+
+    @media (max-width: 768px) {
+      .top-bar { padding: 16px 20px; }
+      .nav-shield { height: 40px; }
+      .nav-logo-sub { display: none; }
+      .nav-logo-text { font-size: 15px; }
+      .back-link span { display: none; }
+      .login-wrapper { padding: 24px 16px 48px; align-items: flex-start; }
+      .login-container { grid-template-columns: 1fr; border-radius: 8px; }
+      .login-left { display: none; }
+      .login-right { padding: 36px 24px; }
+      .login-footer { padding: 20px; flex-direction: column; gap: 12px; text-align: center; }
+      .login-footer-links { flex-wrap: wrap; justify-content: center; gap: 12px; }
+    }
   </style>
 </head>
 <body>
