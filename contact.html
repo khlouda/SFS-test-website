@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Started — Secured Financial Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:        #2B3668;
+      --navy-deep:   #1E2748;
+      --navy-light:  #3D4F8A;
+      --warm-white:  #F8F7F4;
+      --cream:       #EEE9DF;
+      --gold:        #B8972E;
+      --gold-light:  #D4AE4A;
+      --text-dark:   #1A1A2E;
+      --text-mid:    #4A4A6A;
+      --border:      #D8D4CC;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--warm-white);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(43,54,104,0.08); }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 48px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 6px; text-decoration: none; flex-shrink: 0; }
+    .nav-shield { flex-shrink: 0; height: 80px; width: auto; filter: invert(1) sepia(0.2) saturate(3) hue-rotate(200deg) brightness(0.55); }
+    .nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--navy); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2; white-space: nowrap; }
+    .nav-logo-sub { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-mid); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mid); text-decoration: none; transition: color 300ms; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 300ms cubic-bezier(0.25,0.46,0.45,0.94); }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .btn-nav { display: inline-flex; align-items: center; padding: 13px 28px; background: var(--gold); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 4px; transition: background 300ms cubic-bezier(0.25,0.46,0.45,0.94), transform 300ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94); }
+    .btn-nav:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(184,151,46,0.35); }
+    .btn-nav::after { display: none !important; }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      position: relative;
+      padding: 160px 48px 100px;
+      background: var(--navy-deep);
+      overflow: hidden;
+    }
+    .page-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(61,79,138,0.5) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 10% 30%, rgba(184,151,46,0.07) 0%, transparent 55%),
+        linear-gradient(135deg, #1E2748 0%, #2B3668 60%, #1A2040 100%);
+    }
+    .page-hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(248,247,244,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(248,247,244,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .page-hero-watermark {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: 380px; opacity: 0.08; pointer-events: none; mix-blend-mode: screen;
+    }
+    .page-hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .page-hero-eyebrow {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 24px; opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.25,0.46,0.45,0.94) 100ms forwards;
+    }
+    .page-hero-eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+    .page-hero-eyebrow-text { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .page-hero h1 {
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 600;
+      color: var(--warm-white);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      max-width: 680px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.25,0.46,0.45,0.94) 200ms forwards;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--gold-light); }
+    .page-hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(248,247,244,0.7);
+      line-height: 1.75;
+      max-width: 560px;
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.25,0.46,0.45,0.94) 300ms forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .contact-section {
+      padding: 96px 48px;
+      background: var(--warm-white);
+      position: relative; z-index: 1;
+    }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* ─── LEFT PANEL ─── */
+    .contact-left { position: sticky; top: 130px; }
+    .section-eyebrow {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+    }
+    .section-eyebrow-line { width: 36px; height: 1px; background: var(--gold); }
+    .section-eyebrow-text { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .contact-left h2 {
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 600;
+      color: var(--navy-deep);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .contact-left h2 em { font-style: italic; color: var(--navy-light); }
+    .contact-left p {
+      font-size: 17px;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 48px;
+    }
+
+    .trust-items { display: flex; flex-direction: column; gap: 24px; margin-bottom: 48px; }
+    .trust-item { display: flex; align-items: flex-start; gap: 16px; }
+    .trust-icon {
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: 8px;
+      background: rgba(43,54,104,0.07);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--navy);
+    }
+    .trust-item-text h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500;
+      color: var(--text-dark); margin-bottom: 4px;
+    }
+    .trust-item-text p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+    .contact-divider { width: 100%; height: 1px; background: var(--border); margin: 40px 0; }
+
+    .contact-info-list { display: flex; flex-direction: column; gap: 14px; }
+    .contact-info-row {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; color: var(--text-mid);
+    }
+    .contact-info-row a { color: var(--navy); text-decoration: none; font-weight: 500; transition: color 300ms; }
+    .contact-info-row a:hover { color: var(--gold); }
+    .contact-info-icon { color: var(--gold); flex-shrink: 0; }
+
+    /* ─── FORM ─── */
+    .form-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 48px;
+      box-shadow:
+        0 1px 2px rgba(43,54,104,0.04),
+        0 4px 12px rgba(43,54,104,0.08),
+        0 16px 32px rgba(43,54,104,0.06);
+    }
+    .form-card-header { margin-bottom: 36px; }
+    .form-card-header h3 {
+      font-size: 28px; font-weight: 600;
+      color: var(--navy-deep); letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .form-card-header p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label {
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-dark);
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--text-dark);
+      background: var(--warm-white);
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 300ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+      -webkit-appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(43,54,104,0.1);
+      background: #fff;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: #b0aeb8; }
+    .form-select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A4A6A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+    .form-services-label {
+      font-size: 12px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-dark); margin-bottom: 10px;
+    }
+    .services-checkboxes {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; grid-column: 1 / -1;
+    }
+    .service-check {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 300ms cubic-bezier(0.25,0.46,0.45,0.94), background 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .service-check:hover { border-color: var(--navy); background: rgba(43,54,104,0.03); }
+    .service-check input[type="checkbox"] {
+      width: 16px; height: 16px; flex-shrink: 0;
+      accent-color: var(--navy); cursor: pointer;
+    }
+    .service-check-label { font-size: 13px; font-weight: 400; color: var(--text-dark); cursor: pointer; }
+
+    .form-submit {
+      grid-column: 1 / -1;
+      margin-top: 8px;
+    }
+    .btn-submit {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px 32px;
+      background: var(--navy);
+      color: var(--warm-white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; border-radius: 4px; cursor: pointer;
+      transition: background 300ms cubic-bezier(0.25,0.46,0.45,0.94), transform 300ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .btn-submit:hover {
+      background: var(--navy-deep);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(43,54,104,0.25);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-footer-note {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--text-mid);
+    }
+    .form-footer-note svg { color: var(--gold); flex-shrink: 0; }
+
+    /* ─── STATS BAND ─── */
+    .stats-band {
+      background: var(--navy-deep);
+      padding: 64px 48px;
+      position: relative; z-index: 1;
+    }
+    .stats-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 48px;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 40px; font-weight: 400;
+      color: var(--warm-white);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .stat-number span { color: var(--gold); }
+    .stat-label {
+      font-size: 13px; font-weight: 400;
+      color: rgba(248,247,244,0.55);
+      letter-spacing: 0.06em;
+    }
+    .stats-divider { width: 1px; height: 64px; background: rgba(248,247,244,0.1); margin: auto; display: none; }
+
+    /* ─── CTA BAND ─── */
+    .section-cta {
+      background: var(--cream);
+      padding: 80px 48px;
+      position: relative; z-index: 1;
+    }
+    .cta-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px;
+    }
+    .cta-text h2 { font-size: 40px; font-weight: 600; color: var(--navy-deep); letter-spacing: -0.02em; margin-bottom: 10px; }
+    .cta-text p { font-size: 16px; color: var(--text-mid); line-height: 1.6; }
+    .cta-actions { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 32px; background: var(--navy); color: var(--warm-white);
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      border-radius: 4px;
+      transition: background 300ms cubic-bezier(0.25,0.46,0.45,0.94), transform 300ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .btn-primary:hover { background: var(--navy-deep); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(43,54,104,0.25); }
+    .btn-secondary {
+      display: inline-flex; align-items: center;
+      padding: 16px 32px; background: transparent;
+      border: 1.5px solid var(--navy); color: var(--navy);
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      border-radius: 4px;
+      transition: background 300ms cubic-bezier(0.25,0.46,0.45,0.94), color 300ms cubic-bezier(0.25,0.46,0.45,0.94), transform 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .btn-secondary:hover { background: var(--navy); color: var(--warm-white); transform: translateY(-1px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy-deep);
+      padding: 80px 48px 40px;
+      position: relative; z-index: 1;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 56px;
+      border-bottom: 1px solid rgba(248,247,244,0.1);
+    }
+    .footer-brand img {
+      height: 64px; width: auto; margin-bottom: 20px;
+      filter: invert(1); mix-blend-mode: screen; opacity: 0.85;
+    }
+    .footer-brand p { font-size: 14px; color: rgba(248,247,244,0.5); line-height: 1.7; max-width: 280px; margin-bottom: 16px; }
+    .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--gold); }
+    .footer-col h5 {
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(248,247,244,0.4); margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul li a {
+      font-size: 14px; color: rgba(248,247,244,0.65); text-decoration: none;
+      transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .footer-col ul li a:hover { color: var(--warm-white); }
+    .footer-bottom {
+      padding-top: 32px; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: rgba(248,247,244,0.3); }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: 13px; color: rgba(248,247,244,0.3); text-decoration: none; transition: color 300ms; }
+    .footer-legal a:hover { color: rgba(248,247,244,0.6); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img class="nav-shield" src="brand_assets/sfs-watermark.png" alt="SFS Shield" />
+        <div>
+          <div class="nav-logo-text">Secured Financial Services</div>
+          <div class="nav-logo-sub">Certified Public Accountants</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="index.html#testimonials">Testimonials</a></li>
+        <li><a href="login.html">Client Login</a></li>
+        <li><a href="contact.html" class="btn-nav">Get Started</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+    <img class="page-hero-watermark" src="brand_assets/sfs-watermark.png" alt="" aria-hidden="true" />
+    <div class="page-hero-inner">
+      <div class="page-hero-eyebrow">
+        <div class="page-hero-eyebrow-line"></div>
+        <span class="page-hero-eyebrow-text">Free Consultation</span>
+      </div>
+      <h1>Let's get your finances <em>in order.</em></h1>
+      <p class="page-hero-sub">Tell us about your business and we'll match you with the right service plan. No commitment, no pressure — just clarity.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <div class="contact-inner">
+
+      <!-- LEFT: Info + Trust -->
+      <div class="contact-left">
+        <div class="section-eyebrow">
+          <div class="section-eyebrow-line"></div>
+          <span class="section-eyebrow-text">How It Works</span>
+        </div>
+        <h2>A conversation, <em>not a pitch.</em></h2>
+        <p>Fill out the form and one of our CPAs will reach out within one business day. We'll review your situation, answer your questions, and recommend the right service tier — at no cost to you.</p>
+
+        <div class="trust-items">
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div class="trust-item-text">
+              <h4>Same-Day Response</h4>
+              <p>We reply to every inquiry by end of the next business day, guaranteed.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="trust-item-text">
+              <h4>Secure &amp; Confidential</h4>
+              <p>All information shared is encrypted and handled under strict confidentiality — always.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M5 7l7-4 7 4v6c0 4.18-3 8.1-7 9.1C8 22.1 5 18.18 5 14V7z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="trust-item-text">
+              <h4>CPA-Led from Day One</h4>
+              <p>You'll speak directly with a licensed CPA — not a sales rep or intake coordinator.</p>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.8"/></svg>
+            </div>
+            <div class="trust-item-text">
+              <h4>Fixed Monthly Pricing</h4>
+              <p>No hourly billing surprises. We'll give you a clear, flat-rate quote upfront.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-divider"></div>
+
+        <div class="contact-info-list">
+          <div class="contact-info-row">
+            <svg class="contact-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.8"/><path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.8"/></svg>
+            <a href="mailto:hello@securedfinancialservices.com">hello@securedfinancialservices.com</a>
+          </div>
+          <div class="contact-info-row">
+            <svg class="contact-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.66A2 2 0 012 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 10.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.8"/></svg>
+            <a href="tel:+18000000000">(800) 000-0000</a>
+          </div>
+          <div class="contact-info-row">
+            <svg class="contact-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Mon–Fri, 9am–6pm EST</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="form-card">
+        <div class="form-card-header">
+          <h3>Book a Free Consultation</h3>
+          <p>Takes 2 minutes. We'll reach out within one business day.</p>
+        </div>
+        <form>
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label class="form-label" for="first-name">First Name</label>
+              <input class="form-input" type="text" id="first-name" name="first-name" placeholder="Jane" autocomplete="given-name" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="last-name">Last Name</label>
+              <input class="form-input" type="text" id="last-name" name="last-name" placeholder="Smith" autocomplete="family-name" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="jane@company.com" autocomplete="email" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <input class="form-input" type="tel" id="phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel" />
+            </div>
+
+            <div class="form-group full">
+              <label class="form-label" for="business">Business Name</label>
+              <input class="form-input" type="text" id="business" name="business" placeholder="Your Business LLC" autocomplete="organization" />
+            </div>
+
+            <div class="form-group full">
+              <label class="form-label" for="entity-type">Business Type</label>
+              <select class="form-select" id="entity-type" name="entity-type">
+                <option value="" disabled selected>Select one</option>
+                <option value="sole-prop">Sole Proprietor / Freelancer</option>
+                <option value="llc">LLC</option>
+                <option value="s-corp">S-Corporation</option>
+                <option value="c-corp">C-Corporation</option>
+                <option value="partnership">Partnership</option>
+                <option value="individual">Individual / Personal</option>
+                <option value="nonprofit">Nonprofit</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <div class="form-services-label">Services Interested In</div>
+              <div class="services-checkboxes">
+                <label class="service-check">
+                  <input type="checkbox" name="services" value="bookkeeping" />
+                  <span class="service-check-label">Bookkeeping</span>
+                </label>
+                <label class="service-check">
+                  <input type="checkbox" name="services" value="tax" />
+                  <span class="service-check-label">Tax Preparation</span>
+                </label>
+                <label class="service-check">
+                  <input type="checkbox" name="services" value="reporting" />
+                  <span class="service-check-label">Financial Reporting</span>
+                </label>
+                <label class="service-check">
+                  <input type="checkbox" name="services" value="advisory" />
+                  <span class="service-check-label">Business Advisory</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label class="form-label" for="message">Tell us about your situation</label>
+              <textarea class="form-textarea" id="message" name="message" placeholder="What are your biggest financial challenges right now? Any upcoming deadlines we should know about?"></textarea>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn-submit">
+                Request Your Free Consultation
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <div class="form-footer-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <span>Your information is encrypted and never shared with third parties.</span>
+            </div>
+
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS BAND -->
+  <section class="stats-band">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-number">24<span>hr</span></div>
+        <div class="stat-label">Response Guarantee</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4<span>+</span></div>
+        <div class="stat-label">Licensed CPAs &amp; CMAs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100<span>%</span></div>
+        <div class="stat-label">Online &amp; Secure</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">$0</div>
+        <div class="stat-label">Cost to Consult</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="brand_assets/93352576-B8DB-4D09-9953-ADB3F239AAF8.PNG" alt="SFS Logo" />
+          <p>Bookkeeping, tax preparation, financial reporting, and business advisory for small businesses and individuals.</p>
+          <div class="footer-tagline">Clarity. Compliance. Confidence.</div>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="services.html">Bookkeeping</a></li>
+            <li><a href="services.html">Tax Preparation</a></li>
+            <li><a href="services.html">Financial Reporting</a></li>
+            <li><a href="services.html">Business Advisory</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About SFS</a></li>
+            <li><a href="index.html#process">Our Process</a></li>
+            <li><a href="index.html#testimonials">Client Stories</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="mailto:hello@securedfinancialservices.com">hello@securedfinancialservices.com</a></li>
+            <li><a href="tel:+18000000000">(800) 000-0000</a></li>
+            <li><a href="contact.html">Schedule a Call</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 Secured Financial Services. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Disclaimer</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

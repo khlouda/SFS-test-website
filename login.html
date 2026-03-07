@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Login — Secured Financial Services</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:        #2B3668;
+      --navy-deep:   #1E2748;
+      --navy-light:  #3D4F8A;
+      --warm-white:  #F8F7F4;
+      --cream:       #EEE9DF;
+      --gold:        #B8972E;
+      --gold-light:  #D4AE4A;
+      --text-dark:   #1A1A2E;
+      --text-mid:    #4A4A6A;
+      --border:      #D8D4CC;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--navy-deep);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; }
+
+    /* grain texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* background pattern */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(248,247,244,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(248,247,244,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    /* radial glow */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 60% at 30% 40%, rgba(61,79,138,0.5) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 80% 70%, rgba(184,151,46,0.06) 0%, transparent 55%);
+    }
+
+    /* ─── MINI NAV ─── */
+    .top-bar {
+      position: relative; z-index: 10;
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .nav-shield { height: 52px; width: auto; opacity: 0.9; mix-blend-mode: screen; }
+    .nav-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--warm-white); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.2; white-space: nowrap; }
+    .nav-logo-sub { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; color: rgba(248,247,244,0.5); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+      color: rgba(248,247,244,0.5); text-decoration: none;
+      transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .back-link:hover { color: var(--warm-white); }
+
+    /* ─── MAIN LAYOUT ─── */
+    .login-wrapper {
+      flex: 1;
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 80px;
+    }
+    .login-container {
+      width: 100%; max-width: 960px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.2),
+        0 16px 48px rgba(0,0,0,0.35),
+        0 48px 96px rgba(0,0,0,0.2);
+    }
+
+    /* ─── LEFT PANEL ─── */
+    .login-left {
+      background: linear-gradient(160deg, #2B3668 0%, #1E2748 60%, #161e3a 100%);
+      padding: 64px 48px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      position: relative; overflow: hidden;
+    }
+    .login-left-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 60% at 80% 20%, rgba(61,79,138,0.6) 0%, transparent 60%);
+    }
+    .login-left-content { position: relative; z-index: 1; }
+    .login-left-eyebrow {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+    }
+    .login-left-eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
+    .login-left-eyebrow-text { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .login-left h2 {
+      font-size: 36px; font-weight: 600; color: var(--warm-white);
+      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 20px;
+    }
+    .login-left h2 em { font-style: italic; color: var(--gold-light); }
+    .login-left p {
+      font-size: 15px; color: rgba(248,247,244,0.6);
+      line-height: 1.7; margin-bottom: 40px;
+    }
+    .portal-features { display: flex; flex-direction: column; gap: 18px; }
+    .portal-feature { display: flex; align-items: flex-start; gap: 14px; }
+    .portal-feature-icon {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 6px;
+      background: rgba(248,247,244,0.07);
+      border: 1px solid rgba(248,247,244,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+    }
+    .portal-feature-text h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--warm-white); margin-bottom: 3px; }
+    .portal-feature-text p { font-size: 12px; color: rgba(248,247,244,0.45); line-height: 1.5; }
+
+    .login-left-footer { position: relative; z-index: 1; }
+    .security-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      background: rgba(248,247,244,0.05);
+      border: 1px solid rgba(248,247,244,0.1);
+      border-radius: 4px;
+    }
+    .security-badge span { font-size: 12px; color: rgba(248,247,244,0.5); }
+    .security-badge svg { color: var(--gold); flex-shrink: 0; }
+
+    /* ─── RIGHT PANEL (FORM) ─── */
+    .login-right {
+      background: var(--warm-white);
+      padding: 64px 48px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .login-form-header { margin-bottom: 36px; }
+    .login-form-header h3 {
+      font-size: 30px; font-weight: 600; color: var(--navy-deep);
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .login-form-header p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+    .form-label { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dark); }
+    .form-input {
+      width: 100%; padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px;
+      color: var(--text-dark);
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 4px; outline: none;
+      transition: border-color 300ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .form-input:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(43,54,104,0.1);
+    }
+    .form-input::placeholder { color: #b8b6c0; }
+
+    .password-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 7px;
+    }
+    .forgot-link {
+      font-size: 12px; color: var(--navy); text-decoration: none; font-weight: 500;
+      transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .forgot-link:hover { color: var(--gold); }
+
+    .password-input-wrap { position: relative; }
+    .password-input-wrap .form-input { padding-right: 48px; }
+    .toggle-password {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; padding: 4px;
+      color: var(--text-mid);
+      transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .toggle-password:hover { color: var(--navy); }
+
+    .btn-login {
+      width: 100%; padding: 16px;
+      background: var(--navy); color: var(--warm-white);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; border-radius: 4px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: background 300ms cubic-bezier(0.25,0.46,0.45,0.94), transform 300ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+      margin-top: 8px;
+    }
+    .btn-login:hover { background: var(--navy-deep); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(43,54,104,0.25); }
+    .btn-login:active { transform: translateY(0); }
+
+    .form-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 28px 0;
+    }
+    .form-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .form-divider-text { font-size: 12px; color: var(--text-mid); white-space: nowrap; }
+
+    .no-account-box {
+      padding: 20px;
+      background: rgba(43,54,104,0.04);
+      border: 1px solid rgba(43,54,104,0.1);
+      border-radius: 6px;
+      text-align: center;
+    }
+    .no-account-box p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+    .no-account-box a {
+      color: var(--navy); font-weight: 500; text-decoration: none;
+      transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .no-account-box a:hover { color: var(--gold); }
+
+    .login-secure-note {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 24px;
+      font-size: 12px; color: var(--text-mid);
+    }
+    .login-secure-note svg { color: var(--gold); }
+
+    /* ─── FOOTER STRIP ─── */
+    .login-footer {
+      position: relative; z-index: 1;
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(248,247,244,0.07);
+    }
+    .login-footer p { font-size: 12px; color: rgba(248,247,244,0.3); }
+    .login-footer-links { display: flex; gap: 20px; }
+    .login-footer-links a {
+      font-size: 12px; color: rgba(248,247,244,0.3); text-decoration: none;
+      transition: color 300ms cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .login-footer-links a:hover { color: rgba(248,247,244,0.6); }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="index.html" class="nav-logo">
+      <img class="nav-shield" src="brand_assets/sfs-watermark.png" alt="SFS Shield" />
+      <div>
+        <div class="nav-logo-text">Secured Financial Services</div>
+        <div class="nav-logo-sub">Certified Public Accountants</div>
+      </div>
+    </a>
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M7 12L2 7l5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to website
+    </a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="login-wrapper">
+    <div class="login-container">
+
+      <!-- LEFT: Info -->
+      <div class="login-left">
+        <div class="login-left-glow"></div>
+        <div class="login-left-content">
+          <div class="login-left-eyebrow">
+            <div class="login-left-eyebrow-line"></div>
+            <span class="login-left-eyebrow-text">Client Portal</span>
+          </div>
+          <h2>Your documents, <em>always secure.</em></h2>
+          <p>Access your financial documents, upload new files, and communicate with your CPA — all in one encrypted, always-available portal.</p>
+
+          <div class="portal-features">
+            <div class="portal-feature">
+              <div class="portal-feature-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.8"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="portal-feature-text">
+                <h4>Secure Document Upload</h4>
+                <p>Share tax documents, receipts, and financials safely.</p>
+              </div>
+            </div>
+            <div class="portal-feature">
+              <div class="portal-feature-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="portal-feature-text">
+                <h4>DoD-Grade Encryption</h4>
+                <p>Your files protected by federal-standard security protocols.</p>
+              </div>
+            </div>
+            <div class="portal-feature">
+              <div class="portal-feature-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="portal-feature-text">
+                <h4>Direct CPA Messaging</h4>
+                <p>Communicate with your assigned accountant anytime.</p>
+              </div>
+            </div>
+            <div class="portal-feature">
+              <div class="portal-feature-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="portal-feature-text">
+                <h4>24/7 Access</h4>
+                <p>View your reports and documents any time, from any device.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-left-footer">
+          <div class="security-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <span>256-bit SSL encryption — all sessions secured</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="login-right">
+        <div class="login-form-header">
+          <h3>Sign in to your account</h3>
+          <p>Enter your credentials to access the client portal.</p>
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" />
+          </div>
+
+          <div class="form-group">
+            <div class="password-row">
+              <label class="form-label" for="password">Password</label>
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+            <div class="password-input-wrap">
+              <input class="form-input" type="password" id="password" name="password" placeholder="••••••••••" autocomplete="current-password" />
+              <button type="button" class="toggle-password" onclick="togglePw()" aria-label="Toggle password visibility">
+                <svg id="pw-eye" width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-login">
+            Sign In
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+
+        <div class="form-divider">
+          <div class="form-divider-line"></div>
+          <span class="form-divider-text">Don't have an account?</span>
+          <div class="form-divider-line"></div>
+        </div>
+
+        <div class="no-account-box">
+          <p>Client accounts are created by our team after onboarding.<br /><a href="contact.html">Schedule a free consultation</a> to get started.</p>
+        </div>
+
+        <div class="login-secure-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>Secured with 256-bit SSL encryption</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER STRIP -->
+  <div class="login-footer">
+    <p>&copy; 2026 Secured Financial Services. All rights reserved.</p>
+    <div class="login-footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="contact.html">Support</a>
+    </div>
+  </div>
+
+  <script>
+    function togglePw() {
+      const input = document.getElementById('password');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+
+</body>
+</html>
