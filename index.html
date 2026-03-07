@@ -867,12 +867,18 @@
     }
 
     @media (max-width: 640px) {
-      .hero-content { padding: 100px 20px 64px; }
+      .hero-content { padding: 96px 20px 56px; }
       .hero-shield-col { display: none; }
-      .hero-values { grid-template-columns: 1fr 1fr; gap: 16px; }
-      .hero-value { padding: 16px; }
-      .hero-stats { flex-wrap: wrap; gap: 24px; }
+      .hero-actions { flex-direction: column; gap: 12px; }
+      .hero-actions a { width: 100%; text-align: center; justify-content: center; }
+      .hero-values-row { padding: 0 20px 32px; }
+      .hero-values { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .hero-value { padding: 14px 12px; }
+      .hero-value-title { font-size: 13px; }
+      .hero-value-desc { font-size: 12px; line-height: 1.5; }
+      .hero-stats { flex-wrap: wrap; gap: 20px; padding: 0 20px; }
       .hero-stat-divider { display: none; }
+      .hero-stat-number { font-size: 28px; }
       .services-grid { grid-template-columns: 1fr; }
       .process-grid { grid-template-columns: 1fr; }
       .testimonials-grid { grid-template-columns: 1fr; }
@@ -881,9 +887,13 @@
       .footer-legal { flex-wrap: wrap; justify-content: center; gap: 12px; }
       .section-services, .section-why, .section-process,
       .section-testimonials, .section-cta, footer { padding-left: 20px; padding-right: 20px; }
-      .why-inner { padding: 0 20px; }
-      .why-pillars { grid-template-columns: 1fr 1fr; }
+      .why-inner { padding: 0 20px; flex-direction: column; }
+      .why-left { padding-right: 0; }
+      .why-pillars { grid-template-columns: 1fr; gap: 12px; }
+      .why-pillar { padding: 16px; }
       .cta-inner { padding: 0 20px; }
+      .section-process { padding-left: 20px; padding-right: 20px; }
+      .process-step { padding: 24px 20px; }
     }
   </style>
 </head>
@@ -903,6 +913,7 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="#process">Process</a></li>
