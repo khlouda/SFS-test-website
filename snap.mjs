@@ -50,6 +50,16 @@ const page = await browser.newPage();
 await page.setViewport({ width: 1440, height: 900 });
 await page.goto(`http://localhost:${PORT}`, { waitUntil: 'networkidle2', timeout: 30000 });
 await new Promise(r => setTimeout(r, 800));
+
+// Force all scroll-reveal elements visible for screenshot
+await page.evaluate(() => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.style.transition = 'none';
+    el.classList.add('visible');
+  });
+});
+await new Promise(r => setTimeout(r, 200));
+
 await page.screenshot({ path: path.join(screenshotDir, filename), fullPage: true });
 console.log(`Saved: temporary screenshots/${filename}`);
 

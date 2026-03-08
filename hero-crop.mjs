@@ -1,0 +1,21 @@
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import puppeteer from 'puppeteer';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const server = http.createServer((req, res) => {
+  let p = req.url.split('?')[0]; if (p === '/') p = '/index.html';
+  const fp = path.join(__dirname, p);
+  fs.readFile(fp, (e, d) => { if (e) { res.writeHead(404); res.end(); return; } res.writeHead(200); res.end(d); });
+});
+await new Promise(r => server.listen(3000, r));
+const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
+const page = await browser.newPage();
+await page.setViewport({ width: 1440, height: 900 });
+await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
+await new Promise(r => setTimeout(r, 800));
+const heroH = await page.evaluate(() => document.querySelector('.hero').offsetHeight);
+await page.screenshot({ path: 'temporary screenshots/hero-crop.png', clip: { x: 0, y: 0, width: 1440, height: heroH } });
+await browser.close(); server.close();
+console.log('done');
