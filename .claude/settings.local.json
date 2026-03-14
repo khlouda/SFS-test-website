@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/usr/local/bin/node screenshot.mjs http://localhost:3000 nav-hero)",
+      "Bash(/usr/local/bin/node -e \"console.log\\(''in dir''\\)\")",
+      "Bash(echo \"exit:$?\")",
+      "Bash(/usr/local/bin/node snap.mjs nav-fix)",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs kill -9)",
+      "Bash(/usr/local/bin/node snap.mjs nav-bigger)",
+      "Bash(/usr/local/bin/node snap.mjs logo-bigger)",
+      "Bash(/usr/local/bin/node -e \":*)"
+    ]
+  }
+}
